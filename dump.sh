@@ -1,8 +1,14 @@
 #!/bin/bash
-set -ex
+# Script has been modified by Spike for additional functionality and clarity, originally by arter97 and luk1337.
 
-# Extract full update
+# Download base ota package while renaming it to ota.zip
 aria2c -x5 $1 -o ota.zip
+
+# Create a new folder 'fullota' and copy ota.zip to it
+mkdir fullota
+cp ota.zip fullota
+
+# Continue with unzipping and extracting the payload
 unzip ota.zip payload.bin
 mv payload.bin payload_working.bin
 TAG="`unzip -p ota.zip payload_properties.txt | grep ^POST_OTA_VERSION= | cut -b 18-`"
@@ -36,26 +42,57 @@ for i in ${@:2}; do
 done
 wait
 
-# Create a split 7z image
-mkdir out
-mkdir dyn
+# Create necessary folders to be used later
+mkdir out dyn syn
+
+# Switch back to ota folder  
 cd ota
-# Calculate hash
-for h in md5 sha1 sha256; do
-  ls * | parallel openssl dgst -$h -r | sort -k2 -V > ../out/${TAG}-hash.$h &
+
+# Calculate hash for all files in ota folder
+for h in md5 sha1 sha256 xxh128; do
+    if [ "$h" = "xxh128" ]; then
+        ls * | parallel xxh128sum | sort -k2 -V > ../out/${TAG}-hash.$h
+    else
+        ls * | parallel "openssl dgst -${h} -r" | sort -k2 -V > ../out/${TAG}-hash.${h}
+    fi
 done
-ls * | parallel xxh128sum | sort -k2 -V > ../out/${TAG}-hash.xxh128 &
-wait
+
+# Copy boot, vendor_boot and recovery images to ../syn directory
+cp boot.img ../syn/
+cp recovery.img ../syn/
+cp vendor_boot.img ../syn/
+
+# Create compressed images individually in syn directory and move them to out directory
+cd ../syn
+for f in boot vendor_boot recovery; do
+    7z a -mmt128 -mx5 ${f}.img.zip ${f}.img
+    mv ${f}.img.zip ../out
+done
+
+# Move specific logical image files from ../ota to ../dyn/ directory
+cd ../ota
 for f in system system_ext product vendor vendor_dlkm odm; do
     mv ${f}.img ../dyn
 done
-7z a -mx6 ../out/${TAG}-image.7z * &
-cd ../dyn
-7z a -mx6 -v1g ../out/${TAG}-image-logical.7z *
-wait
-cd ..
-rm -rf ota dyn
 
-# Echo tag name and release body
+# Change back to ../ota/ directory and create the split .7z for non-logical images
+cd ../ota
+7z a -mmt128 -mx6 ../out/${TAG}-image.7z *
+
+# Change to ../dyn/ directory and create the split .7z for logical images
+cd ../dyn
+7z a -mmt128 -mx6 -v1g ../out/${TAG}-image-logical.7z *
+wait
+
+# Move to fullota folder and create the splitted .7z for the base FullOTA Package (ota.zip renamed earlier)
+cd ../fullota
+cp ota.zip "./${TAG}-FullOTA.zip"
+7z a -mmt128 -mx6 -v1g "../out/${TAG}-FullOTA.7z" "${TAG}-FullOTA.zip"
+cd ..
+
+# Cleanup of corresponding folders
+rm -rf ../fullota ../ota ../dyn ../syn
+
+# Echo tag name, release body, and release history
 echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 echo "body=$BODY" >> "$GITHUB_OUTPUT"
