@@ -42,13 +42,13 @@ for i in ${@:2}; do
 done
 wait
 
-# Create necessary folders to be used later
+# Create necessary folders to be used later (`dyn` for logical images and `syn` for boot partition images)
 mkdir out dyn syn
 
-# Switch back to ota folder  
+# Switch back to `ota` directory
 cd ota
 
-# Calculate hash for all files in ota folder
+# Calculate the hashes for all files in the `ota` directory and send them to `out` (tagged with `-hash`)
 for h in md5 sha1 sha256 xxh128; do
     if [ "$h" = "xxh128" ]; then
         ls * | parallel xxh128sum | sort -k2 -V > ../out/${TAG}-hash.$h
@@ -57,34 +57,31 @@ for h in md5 sha1 sha256 xxh128; do
     fi
 done
 
-# Copy boot, vendor_boot and recovery images to ../syn directory
-cp boot.img ../syn/
-cp recovery.img ../syn/
-cp vendor_boot.img ../syn/
-
-# Create compressed images individually in syn directory and move them to out directory
-cd ../syn
-for f in boot vendor_boot recovery; do
-    7z a -mmt128 -mx5 ${f}.img.zip ${f}.img
-    mv ${f}.img.zip ../out
+# Move specific boot partition image files from `ota` to `syn` directory
+for f in boot recovery vendor_boot vbmeta; do
+    mv ${f}.img ../syn
 done
 
-# Move specific logical image files from ../ota to ../dyn/ directory
+# Switch to `ota` directory and move specific logical partition image files from `ota` to `dyn` directory
 cd ../ota
-for f in system system_ext product vendor vendor_dlkm odm; do
+for f in system system_ext product vendor vendor_dlkm odm vbmeta_system vbmeta_vendor; do
     mv ${f}.img ../dyn
 done
 
-# Change back to ../ota/ directory and create the split .7z for non-logical images
-cd ../ota
-7z a -mmt128 -mx6 ../out/${TAG}-image.7z *
+# Change back to `syn` directory and create a 7z archive for boot partition images tagged with "-boot"
+cd ../syn
+7z a -mmt128 -mx6 ../out/${TAG}-image-boot.7z *
 
-# Change to ../dyn/ directory and create the split .7z for logical images
+# Change back to `ota` directory and create a 7z archive for firmware images tagged with "-firmware"
+cd ../ota
+7z a -mmt128 -mx6 ../out/${TAG}-image-firmware.7z *
+
+# Change to `dyn` directory and create a split 7z archive for logical images tagged with "-logical"
 cd ../dyn
 7z a -mmt128 -mx6 -v1g ../out/${TAG}-image-logical.7z *
 wait
 
-# Move to fullota folder and create the splitted .7z for the base FullOTA Package (ota.zip renamed earlier)
+# Move to `fullota` directory and create a split 7z archive for the base FullOTA Package (ota.zip renamed earlier) tagged with "-FullOTA"
 cd ../fullota
 cp ota.zip "./${TAG}-FullOTA.zip"
 7z a -mmt128 -mx6 -v1g "../out/${TAG}-FullOTA.7z" "${TAG}-FullOTA.zip"

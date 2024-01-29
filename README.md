@@ -1,7 +1,6 @@
 # Nothing Phone (2) Archive
 
-* Comprehensive Collection of Unmodified Full OTA Update Packages & Stock OTA Images for Nothing Phone (2)
-* A personally maintained fork of [Nothing Archive by arter97](https://github.com/arter97/nothing_archive)
+* A comprehensive collection of unmodified Full OTA update packages & stock OTA images for Nothing Phone (2).
 
 ## Downloads
 
@@ -9,13 +8,26 @@
 
 - Official Full OTA Update Package is marked `-FullOTA`. Extract the splitted 7z parts to get the `<name>-FullOTA.zip`.
 
-- Zipped versions of `boot`, `vendor_boot`, and `recovery` images are individually provided for convenience in relevant use cases.
+- The Stock OTA image files are categorized and archived in .7z format based on `boot`, `logical`, and `firmware` partitions:
 
-- Logical partition images, (marked `-image-logical.7z.001-003`), are uploaded separately so that other images can be downloaded quickly if needed, including:
-  `system`, `system_ext`, `product`, `vendor`, `vendor_dlkm`, `odm`
+### Boot Partition (marked `-image-boot.7z`)
 
-- Non-Logical partitions (marked `-image.7z`) include:
-  `abl.img`, `aop.img`, `aop_config.img`, `bluetooth.img`, `boot.img`, `cpucp.img`, `devcfg.img`, `dsp.img`, `dtbo.img`, `featenabler.img`, `hyp.img`, `imagefv.img`, `keymaster.img`, `modem.img`, `multiimgoem.img`, `multiimgqti.img`, `qupfw.img`, `qweslicstore.img`, `recovery.img`, `shrm.img`, `tz.img`, `uefi.img`, `uefisecapp.img`, `vbmeta.img`, `vbmeta_system.img`, `vbmeta_vendor.img`, `vendor_boot.img`, `xbl.img`, `xbl_config.img`, and `xbl_ramdump.img`
+Includes 4 images:
+```bash
+boot, vendor_boot, recovery & vbmeta
+```
+### Logical partition (marked `-image-logical.7z.001-003`)
+
+Includes 8 images:
+```bash
+system, system_ext, product, vendor, vendor_dlkm, odm, vbmeta_system & vbmeta_vendor
+```
+### Firmware partition (marked `-image-firmware.7z`)
+
+Includes 24 images:
+```bash
+abl, aop, aop_config, bluetooth, cpucp, devcfg, dsp, dtbo, featenabler, hyp, imagefv, keymaster, modem, multiimgoem, multiimgqti, qupfw, qweslicstore, shrm, tz, uefi, uefisecapp, vbmeta, vbmeta_system, vbmeta_vendor, vendor_boot, xbl, xbl_config & xbl_ramdump
+```
 
 ## Disclaimer
 
@@ -36,7 +48,7 @@
 - If you optionally want to have dm-verity disabled, perform:
 
 ```bash
-fastboot update --disable-verity --disable-verification vbmeta.img
+  fastboot update --disable-verity --disable-verification vbmeta.img
 ```
 
 ## Manual Sideloading of Full OTA Packages
@@ -65,18 +77,18 @@ fastboot update --disable-verity --disable-verification vbmeta.img
 
 ## Integrity Check
 
-- You can check the downloaded file's integrity with one of the following commands (for `logical`):
+- You can check the downloaded file's integrity with one of the following commands :
 
 ``` bash
-md5sum -c *-hash.md5
-sha1sum -c *-hash.sha1
-sha256sum -c *-hash.sha256
-xxh128sum -c *-hash.xxh128
+  md5sum -c *-hash.md5
+  sha1sum -c *-hash.sha1
+  sha256sum -c *-hash.sha256
+  xxh128sum -c *-hash.xxh128
 ```
 
 - xxh128 is usually the fastest.
 
 
 ### Thanks to
-- [luk1337](https://github.com/luk1337/oplus_archive)
-- [arter97](https://github.com/arter97/nothing_archive)
+- [luk1337](https://github.com/luk1337/oplus_archive) & [arter97](https://github.com/arter97/nothing_archive) for their great work!
+- [Hellboy017](https://github.com/HELLBOY017) for his assistance to make the [Pong Fastboot Flasher](https://github.com/HELLBOY017/Pong_fastboot_flasher).
