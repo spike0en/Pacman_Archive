@@ -26,7 +26,7 @@ system, system_ext, product, vendor, vendor_dlkm, odm, vbmeta_system & vbmeta_ve
 
 Includes 24 images:
 ```bash
-abl, aop, aop_config, bluetooth, cpucp, devcfg, dsp, dtbo, featenabler, hyp, imagefv, keymaster, modem, multiimgoem, multiimgqti, qupfw, qweslicstore, shrm, tz, uefi, uefisecapp, vbmeta, vbmeta_system, vbmeta_vendor, vendor_boot, xbl, xbl_config & xbl_ramdump
+abl, aop, aop_config, bluetooth, cpucp, devcfg, dsp, dtbo, featenabler, hyp, imagefv, keymaster, modem, multiimgoem, multiimgqti, qupfw, qweslicstore, shrm, tz, uefi, uefisecapp, xbl, xbl_config & xbl_ramdump
 ```
 
 ## Disclaimer
@@ -58,7 +58,7 @@ abl, aop, aop_config, bluetooth, cpucp, devcfg, dsp, dtbo, featenabler, hyp, ima
 1. To flash stock, unmodified official Full OTA packages, extract the files using 7z to obtain the <name>-FullOTA.zip file.
 2. Using your preferred file manager, create a folder named 'ota' at the root of your storage.
 3. Copy the <name>-FullOTA.zip into the newly created 'ota' folder.
-4. Open your dial pad and type *#*#682#*#*.
+4. Open your dial pad and type `*#*#682#*#*`.
 5. The manual update utility will launch, scanning and locating your previously downloaded update file.
 6. Tap to begin the update. The process will take about 10-15 minutes (duration may vary).
 7. Enjoy your updated device after reboot!
