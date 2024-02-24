@@ -1,8 +1,30 @@
 #!/bin/bash
 # Script has been modified by Spike for additional functionality and clarity, originally by arter97 and luk1337.
 
-# Download base ota package while renaming it to ota.zip
-aria2c -x5 $1 -o ota.zip
+# Set execute permissions for ota_extractor
+chmod +x ./bin/ota_extractor
+
+# Download base ota package with aria2c or gdown based on link format while renaming it to ota.zip
+download_with_gdown() {
+    gdown --fuzzy "$url" -O ota.zip
+}
+
+download_with_aria2c() {
+    aria2c -x5 "$1" -o ota.zip
+}
+
+download_file() {
+    local url="$1"
+
+    if [[ "$url" == *"drive.google.com"* ]]; then
+        download_with_gdown "$url"
+    else
+        download_with_aria2c "$url"
+    fi
+}
+
+# Call download_file function with the provided URL
+download_file "$1"
 
 # Create a new folder 'fullota' and copy ota.zip to it
 mkdir fullota
@@ -15,32 +37,27 @@ TAG="`unzip -p ota.zip payload_properties.txt | grep ^POST_OTA_VERSION= | cut -b
 BODY="[$TAG]($1) (full)"
 rm ota.zip
 mkdir ota
-(
-    ./bin/ota_extractor -output_dir ota -payload payload_working.bin
-    rm payload_working.bin
-) & # Allow subsequent downloads to be done in parallel
+
+# Perform extraction on payload_working.bin
+./bin/ota_extractor -output_dir ota -payload payload_working.bin
 
 # Apply incrementals
-for i in ${@:2}; do
-    aria2c -x5 $i -o ota.zip
+for i in "${@:2}"; do
+    download_file "$i"
     unzip ota.zip payload.bin
-    wait
     mv payload.bin payload_working.bin
     TAG="`unzip -p ota.zip payload_properties.txt | grep ^POST_OTA_VERSION= | cut -b 18-`"
     BODY="$BODY -> [$TAG]($i)"
     rm ota.zip
 
-    (
-        mkdir ota_new
-        ./bin/ota_extractor -input-dir ota -output_dir ota_new -payload payload_working.bin
+    mkdir ota_new
+    ./bin/ota_extractor -input-dir ota -output_dir ota_new -payload payload_working.bin
 
-        rm -rf ota
-        mv ota_new ota
+    rm -rf ota
+    mv ota_new ota
 
-        rm payload_working.bin
-    ) & # Allow subsequent downloads to be done in parallel
+    rm payload_working.bin
 done
-wait
 
 # Create necessary folders to be used later (`dyn` for logical images and `syn` for boot partition images)
 mkdir out dyn syn
@@ -68,23 +85,33 @@ for f in system system_ext product vendor vendor_dlkm odm vbmeta_system vbmeta_v
     mv ${f}.img ../dyn
 done
 
-# Change back to `syn` directory and create a 7z archive for boot partition images tagged with "-boot"
+# Switch to `syn` directory and create a 7z archive for boot partition images tagged with "-boot"
 cd ../syn
 7z a -mmt128 -mx6 ../out/${TAG}-image-boot.7z *
 
-# Change back to `ota` directory and create a 7z archive for firmware images tagged with "-firmware"
+# Switch to `ota` directory and create a 7z archive for firmware images tagged with "-firmware"
 cd ../ota
 7z a -mmt128 -mx6 ../out/${TAG}-image-firmware.7z *
 
-# Change to `dyn` directory and create a split 7z archive for logical images tagged with "-logical"
+# Switch to `dyn` directory and create a split 7z archive for logical images tagged with "-logical"
 cd ../dyn
 7z a -mmt128 -mx6 -v1g ../out/${TAG}-image-logical.7z *
 wait
 
-# Move to `fullota` directory and create a split 7z archive for the base FullOTA Package (ota.zip renamed earlier) tagged with "-FullOTA"
+# Switch to `fullota` directory
 cd ../fullota
+
+# Copy ota.zip and rename it to ${TAG}-FullOTA.zip
 cp ota.zip "./${TAG}-FullOTA.zip"
+
+# Calculate SHA-1 hash for the FullOTA file and send them to `out` (tagged with `-hash`)
+SHA1_HASH=$(openssl dgst -sha1 -r "${TAG}-FullOTA.zip" | cut -d ' ' -f 1)
+echo "${SHA1_HASH}" > "../out/${TAG}-hash.sha1"
+
+# Create a split 7z archive for the base FullOTA Package
 7z a -mmt128 -mx6 -v1g "../out/${TAG}-FullOTA.7z" "${TAG}-FullOTA.zip"
+
+# Move back to the previous directory
 cd ..
 
 # Cleanup of corresponding folders

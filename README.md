@@ -35,7 +35,7 @@ abl, aop, aop_config, bluetooth, cpucp, devcfg, dsp, dtbo, featenabler, hyp, ima
 
 - You can re-lock the bootloader after flashing images.
 
-- Hashes of `<name>-FullOTA.zip` files have not been provided, as the built-in NothingOS Offline Updater Tool autonomously verifies file integrity. It initiates the update process only if the file aligns with the hash values specified in `payload-properties.txt`, which is obtained during the creation of the update package.
+- SHA-1 hash of `<name>-FullOTA.zip` file has been provided. It is to be noted that the built-in NothingOS Offline Updater Tool autonomously verifies file integrity. It initiates the update process only if the file aligns with the hash values specified in `payload-properties.txt`, which is obtained during the creation of the update package.
 
 - For further inquiries, discussions, and engaging content, users are encouraged to explore the [Nothing Phone (2) Telegram Community](https://t.me/NothingPhone2)
 
