@@ -1,10 +1,10 @@
-# Nothing Phone (2) Archive
+# Nothing Phone (2a) Archive
 
-* A comprehensive collection of unmodified Full OTA update packages & stock OTA images for Nothing Phone (2).
+* A comprehensive collection of unmodified Full OTA update packages & stock OTA images for Nothing Phone (2a).
 
 ## Downloads
 
-- Downloads are tagged with `POST_OTA_VERSION` & `NothingOS version` [here](https://github.com/spike0en/nothing_archive/releases).
+- Downloads are tagged with `POST_OTA_VERSION` & `NothingOS version` [here](https://github.com/spike0en/Pacman_Archive/releases).
 
 - Official Full OTA Update Package is marked `-FullOTA`. Extract the splitted 7z parts to get the `<name>-FullOTA.zip`.
 
@@ -37,19 +37,11 @@ abl, aop, aop_config, bluetooth, cpucp, devcfg, dsp, dtbo, featenabler, hyp, ima
 
 - SHA-1 hash of `<name>-FullOTA.zip` file has been provided. It is to be noted that the built-in NothingOS Offline Updater Tool autonomously verifies file integrity. It initiates the update process only if the file aligns with the hash values specified in `payload-properties.txt`, which is obtained during the creation of the update package.
 
-- For further inquiries, discussions, and engaging content, users are encouraged to explore the [Nothing Phone (2) Telegram Community](https://t.me/NothingPhone2)
+- For further inquiries, discussions, and engaging content, users are encouraged to explore the [Nothing Phone (2a) Telegram Community](https://t.me/NothingPhone2a)
 
 ## Fastboot Flashing
 
-- To flash the stock, unmodified images with fastboot, extract the files using 7z and use [Pong_fastboot_flasher](https://github.com/HELLBOY017/Pong_fastboot_flasher).
-
-- Please download and use the latest fastboot [directly from Google](https://developer.android.com/tools/releases/platform-tools). Compatible USB drivers can be obtained from [here](https://developer.android.com/studio/run/win-usb).
-
-- If you optionally want to have dm-verity disabled, perform:
-
-```bash
-  fastboot update --disable-verity --disable-verification vbmeta.img
-```
+- A working script for the same will be updated here in due time. 
 
 ## Manual Sideloading of Full OTA Packages
 
@@ -65,15 +57,7 @@ abl, aop, aop_config, bluetooth, cpucp, devcfg, dsp, dtbo, featenabler, hyp, ima
 
 ### B. Via Custom Recovery (Unlocked BL):
 
-- Alternatively, users can directly flash these full OTA packages using available custom recoveries for Nothing Phone (2), such as [TWRP](https://xdaforums.com/t/recovery-12-unofficial-teamwin-recovery-project.4623971) or [OrangeFox](https://xdaforums.com/t/recovery-12-1-official-orangefox-recovery-project-ofrp.4631141).
-
-
-## NothingMuchROM
-
-- You can use this repository to flash non-super partitions to the latest stock to be used with [NothingMuchROM by arter97](https://xdaforums.com/t/nothingmuchrom-for-nothing-phone-2.4623411).
-
-- Skip downloading `-logical` files, and follow the above steps but answer "N" to Flash logical partition images? during [Pong_fastboot_flasher](https://github.com/HELLBOY017/Pong_fastboot_flasher)'s installation.
-
+- The FullOTA can be flashed directly via custom recoveries as well.
 
 ## Integrity Check
 
@@ -91,4 +75,3 @@ abl, aop, aop_config, bluetooth, cpucp, devcfg, dsp, dtbo, featenabler, hyp, ima
 
 ### Thanks to
 - [luk1337](https://github.com/luk1337/oplus_archive) & [arter97](https://github.com/arter97/nothing_archive) for their great work!
-- [Hellboy017](https://github.com/HELLBOY017) for his assistance to make the [Pong Fastboot Flasher](https://github.com/HELLBOY017/Pong_fastboot_flasher).
