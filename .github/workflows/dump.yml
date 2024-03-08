@@ -1,4 +1,4 @@
-name: Pong Firmware Dumper
+name: Pacman Firmware Dumper
 
 on:
   workflow_dispatch:

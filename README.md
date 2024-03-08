@@ -12,21 +12,21 @@
 
 ### Boot Partition (marked `-image-boot.7z`)
 
-Includes 4 images:
+Includes 5 images:
 ```bash
-boot, vendor_boot, recovery & vbmeta
+boot, dtbo, init_boot, vendor_boot & vbmeta
 ```
 ### Logical partition (marked `-image-logical.7z.001-003`)
 
-Includes 8 images:
+Includes 10 images:
 ```bash
-system, system_ext, product, vendor, vendor_dlkm, odm, vbmeta_system & vbmeta_vendor
+odm, vendor, system_ext, system, vendor_dlkm, odm_dlkm, system_dlkm, product, vbmeta_system & vbmeta_vendor
 ```
 ### Firmware partition (marked `-image-firmware.7z`)
 
-Includes 24 images:
+Includes 22 images:
 ```bash
-abl, aop, aop_config, bluetooth, cpucp, devcfg, dsp, dtbo, featenabler, hyp, imagefv, keymaster, modem, multiimgoem, multiimgqti, qupfw, qweslicstore, shrm, tz, uefi, uefisecapp, xbl, xbl_config & xbl_ramdump
+apusys, audio_dsp, ccu, connsys_bt, connsys_gnss, connsys_wifi, dpm, gpueb, gz, lk, logo, mcf_ota, mcupm, md1img, mvpu_algo, pi_img, preloader_raw, scp, spmfw, sspm, tee & vcp
 ```
 
 ## Disclaimer
