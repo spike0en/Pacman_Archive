@@ -16,7 +16,7 @@ Includes 5 images:
 ```bash
 boot, dtbo, init_boot, vendor_boot & vbmeta
 ```
-### Logical partition (marked `-image-logical.7z.001-003`)
+### Logical partition (marked `-image-logical.7z.001-004`)
 
 Includes 10 images:
 ```bash
