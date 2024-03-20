@@ -4,7 +4,7 @@
 
 ## Downloads
 
-- Downloads are tagged with `POST_OTA_VERSION` & `NothingOS version` [here](https://github.com/spike0en/Pacman_Archive/releases).
+- Downloads are tagged with `POST_OTA_VERSION` & `NothingOS version` [here](https://github.com/spike0en/Pacman_Archive/releases). It is to be noted that the releases are compatible with all regional variants of the device.
 
 - Official Full OTA Update Package is marked `-FullOTA`. Extract the splitted 7z parts to get the `<name>-FullOTA.zip`.
 
@@ -33,7 +33,7 @@ apusys, audio_dsp, ccu, connsys_bt, connsys_gnss, connsys_wifi, dpm, gpueb, gz, 
 
 - While this is a collection of unmodified images, you still need to have the bootloader unlocked.
 
-- You can re-lock the bootloader after flashing images.
+- You can re-lock the bootloader after flashing images. 
 
 - SHA-1 hash of `<name>-FullOTA.zip` file has been provided. It is to be noted that the built-in NothingOS Offline Updater Tool autonomously verifies file integrity. It initiates the update process only if the file aligns with the hash values specified in `payload-properties.txt`, which is obtained during the creation of the update package.
 
