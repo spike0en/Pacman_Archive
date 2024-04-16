@@ -41,7 +41,9 @@ apusys, audio_dsp, ccu, connsys_bt, connsys_gnss, connsys_wifi, dpm, gpueb, gz, 
 
 ## Fastboot Flashing
 
-- A working script for the same will be updated here in due time. 
+- To flash the stock, unmodified images with fastboot, extract the files using 7z and use [Pacman_fastboot_flasher](https://github.com/nothing-Pacman/Pacman_fastboot_flasher).
+
+- Please download and use the latest fastboot [directly from Google](https://developer.android.com/tools/releases/platform-tools). Compatible USB drivers can be obtained from [here](https://developer.android.com/studio/run/win-usb).
 
 ## Manual Sideloading of Full OTA Packages
 
