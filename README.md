@@ -1,6 +1,6 @@
 # Nothing Phone (2a) Archive
 
-* A comprehensive collection of unmodified Full OTA update packages & stock OTA images for Nothing Phone (2a).
+* A comprehensive collection of unmodified Stock OTA images for Nothing Phone (2a).
 
 ## Downloads
 
