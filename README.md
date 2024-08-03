@@ -1,10 +1,12 @@
-# Nothing Phone (2a) Archive
+# Nothing Phone (2a) & (2a) Plus Archive
 
-* A comprehensive collection of unmodified Stock OTA images for Nothing Phone (2a).
+* A comprehensive collection of unmodified Stock OTA images for Nothing Phone (2a) & (2a) Plus.
 
 ## Downloads
 
 - Downloads are tagged with `POST_OTA_VERSION` & `NothingOS version` [here](https://github.com/spike0en/Pacman_Archive/releases). It is to be noted that the releases are compatible with all regional variants of the device.
+
+- Codenames: 2a > `Pacman` | 2a Plus > `PacmanPro`
 
 - Official Full OTA Update Package is marked `-FullOTA`. Extract the splitted 7z parts to get the `<name>-FullOTA.zip`.
 
@@ -37,7 +39,7 @@ apusys, audio_dsp, ccu, connsys_bt, connsys_gnss, connsys_wifi, dpm, gpueb, gz, 
 
 - SHA-1 hash of `<name>-FullOTA.zip` file has been provided. It is to be noted that the built-in NothingOS Offline Updater Tool autonomously verifies file integrity. It initiates the update process only if the file aligns with the hash values specified in `payload-properties.txt`, which is obtained during the creation of the update package.
 
-- For further inquiries, discussions, and engaging content, users are encouraged to explore the [Nothing Phone (2a) Telegram Community](https://t.me/NothingPhone2a)
+- For further inquiries, discussions, and engaging content, users are encouraged to explore the [Nothing Phone (2a)](https://t.me/NothingPhone2a) & [Nothing Phone (2a) Plus](https://t.me/Phone2aPlus) Telegram Communities.
 
 ## Fastboot Flashing
 
